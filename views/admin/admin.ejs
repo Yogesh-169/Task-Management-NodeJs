@@ -8,16 +8,24 @@
 <body>
     <%- include('../partials/navbar') %>
 
-    <div class="dashboard-container">
-        <h2>Welcome, Admin</h2>
-        <p>You can manage users here.</p>
-    
-        <h3>All Users</h3>
-        <ul>
-          
-        </ul>
-        <a href="/login" class="logout">Logout</a>
-    </div>
+    <h3>All Users</h3>
+<ul>
+    <% if (users && users.length > 0) { %>
+        <% users.forEach(user => { %>
+            <li>
+                <span><%= user.username %> - <%= user.role %></span>
+                <% if (user.role !== "admin") { %>
+                    <form action="/admin/make-admin" method="POST">
+                        <input type="hidden" name="userId" value="<%= user._id %>">
+                        <button type="submit" class="btn">Make Admin</button>
+                    </form>
+                <% } %>
+            </li>
+        <% }) %>
+    <% } else { %>
+        <p>No users found.</p>
+    <% } %>
+</ul>
 </body>
 </html>
     

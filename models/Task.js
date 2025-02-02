@@ -6,9 +6,15 @@ const taskSchema = new mongoose.Schema({
   description: { type: String, required: true },
   assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   dueDate: { type: Date },
-  status: { type: String, enum: ['pending', 'in progress', 'completed'], default: 'pending' }
+  status: { 
+    type: String, 
+    enum: ['pending', 'in-progress', 'completed'], // Changed from 'in progress' to 'in-progress'
+    default: 'pending' 
+  }
 }, { timestamps: true });
 
 const Task = mongoose.model('Task', taskSchema);
 
 module.exports = Task;
+
+

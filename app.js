@@ -5,9 +5,12 @@ const session = require('express-session');
 const authRoutes = require('./routes/auth');
 const Task = require('./models/Task');
 const path = require('path');
+const methodOverride = require('method-override');
+
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));  // This tells Express to look for ?_method=DELETE to override the POST method
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
