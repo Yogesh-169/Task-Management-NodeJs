@@ -19,10 +19,6 @@ const handleRegistration = async (req, res) => {
       
     }
 
-    // Hash the password
-    // const salt = await bcrypt.genSalt(saltRounds);
-    // const hashedPassword = await bcrypt.hash(password, salt);
-
     // Create and save the new user
     const newUser = new User({ username, email, password: password });
     await newUser.save();
@@ -55,18 +51,27 @@ const handleLogin = async (req, res) => {
       if (!password==user.password) {
         return res.status(400).send('Invalid password');
       }
+      req.session.user = {
+        _id: user._id,
+        username: user.username,
+        role: user.role
+      };
   
-      // User authenticated
+      // Redirect based on role
       if (user.role === 'admin') {
-        res.redirect('/admin'); // Redirect to admin page
+        res.redirect('/admin');
       } else {
-        res.redirect('/user'); // Redirect to user page
+        res.redirect('/user');
       }
+  
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).send('Internal server error');
     }
   };
+
+
+  
 
 module.exports = {
   showRegisterPage,
