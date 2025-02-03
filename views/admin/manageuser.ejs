@@ -1,92 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Tasks</title>
-  <link rel="stylesheet" href="/styles/style.css">
-  <link rel="stylesheet" href="/styles/mng.css">
-</head>
-<body>
-  <%- include('../partials/navbar') %>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Tasks</title>
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/mng.css">
+  </head>
+  <body>
+    <%- include('../partials/navbar') %>
 
-  <div class="dashboard-container">
-    <h2>Manage Tasks</h2>
+    <div class="dashboard-container">
+      <h2>Manage Tasks</h2>
 
-    <!-- Search Bar -->
-    <div class="search-container">
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Search tasks by name, description, or user..."
-        id="searchInput"
-      />
-    </div>
+      <!-- Search Bar -->
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search tasks by name, description, or user..."
+          id="searchInput"
+        />
+      </div>
 
-    <!-- Tasks Table -->
-    <table class="tasks-table">
-      <thead>
-        <tr>
-          <th>Task Name</th>
-          <th>Description</th>
-          <th>Assigned To</th>
-          <th>Status</th>
-          <th>Created At</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="tasksBody">
-        <% if (tasks.length > 0) { %>
-          <% tasks.forEach(task => { %>
-            <tr>
-              <td><%= task.name %></td>
-              <td><%= task.description %></td>
-              <td><%= task.assignedTo.username %></td>
-              <td>
-                <span class="status-badge status-<%= task.status %>">
-                  <%= task.status %>
-                </span>
-              </td>
-              <td><%= task.createdAt.toLocaleDateString() %></td>
-              <td>
-                <div class="action-buttons">
-                  <a href="/utasks/<%= task._id %>/edit" class="edit-btn">Edit</a>
-
-
-                    <form action="/utasks/<%= task._id %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this task?');">Delete</button>
-                    </form>
-
-
-                </div>
-              </td>
-            </tr>
-          <% }) %>
-        <% } else { %>
+      <!-- Tasks Table -->
+      <table class="tasks-table">
+        <thead>
           <tr>
-            <td colspan="6" class="no-tasks">No tasks found</td>
+            <th>Task Name</th>
+            <th>Description</th>
+            <th>Assigned To</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Actions</th>
           </tr>
-        <% } %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody id="tasksBody">
+          <% if (tasks.length > 0) { %>
+            <% tasks.forEach(task => { %>
+              <tr>
+                <td><%= task.name %></td>
+                <td><%= task.description %></td>
+                <td><%= task.assignedTo.username %></td>
+                <td>
+                  <span class="status-badge status-<%= task.status %>">
+                    <%= task.status %>
+                  </span>
+                </td>
+                <td><%= task.createdAt.toLocaleDateString() %></td>
+                <td>
+                  <div class="action-buttons">
+                    <a href="/utasks/<%= task._id %>/edit" class="edit-btn">Edit</a>
 
-    <!-- Logout Button -->
-    <div style="text-align: center;">
-      <a href="/login" class="logout">Logout</a>
-    </div>
+
+                      <form action="/utasks/<%= task._id %>?_method=DELETE" method="POST" style="display: inline;">
+                          <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this task?');">Delete</button>
+                      </form>
+
+
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="6" class="no-tasks">No tasks found</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+
+      <!-- Pagination Controls -->
+  <div class="pagination">
+    <% if (currentPage > 1) { %>
+      <a href="?page=<%= currentPage - 1 %>" class="page-link">Previous</a>
+    <% } %>
+
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <a href="?page=<%= i %>" class="page-link <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+      <a href="?page=<%= currentPage + 1 %>" class="page-link">Next</a>
+    <% } %>
   </div>
 
-  <!-- Search Functionality -->
-  <script>
-    document.getElementById('searchInput').addEventListener('input', function (e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const rows = document.querySelectorAll('#tasksBody tr');
+      <!-- Logout Button -->
+      <div style="text-align: center;">
+        <a href="/logout" class="logout">Logout</a>
+      </div>
+    </div>
 
-      rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    <!-- Search Functionality -->
+    <script>
+      document.getElementById('searchInput').addEventListener('input', function (e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll('#tasksBody tr');
+
+        rows.forEach(row => {
+          const text = row.textContent.toLowerCase();
+          row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
       });
-    });
-  </script>
-</body>
-</html>
+    </script>
+  </body>
+  </html>

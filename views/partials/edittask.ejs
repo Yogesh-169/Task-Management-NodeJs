@@ -1,0 +1,18 @@
+
+<div class="form-group">
+    <label>Task Name:</label>
+    <input type="text" value="<%= task.name %>" <%= user.role !== 'admin' ? 'readonly' : '' %> >
+</div>
+<div class="form-group">
+    <label>Description:</label>
+    <textarea <%= user.role !== 'admin' ? 'readonly' : '' %> ><%= task.description %></textarea>
+</div>
+<div class="form-group">
+    <label>Status:</label>
+    <select name="status" class="status-select">
+        <option value="pending" <%= task.status === 'pending' ? 'selected' : '' %>>Pending</option>
+        <option value="in-progress" <%= task.status === 'in-progress' ? 'selected' : '' %>>In Progress</option>
+        <option value="completed" <%= task.status === 'completed' ? 'selected' : '' %>>Completed</option>
+    </select>
+</div>
+<button type="submit" class="update-btn">Update Status</button>

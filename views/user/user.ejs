@@ -29,8 +29,23 @@
             <% }) %>
         </ul>
 
+        <!-- Pagination Controls -->
+  <div class="pagination">
+    <% if (currentPage > 1) { %>
+      <a href="?page=<%= currentPage - 1 %>" class="page-link">Previous</a>
+    <% } %>
+
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <a href="?page=<%= i %>" class="page-link <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+      <a href="?page=<%= currentPage + 1 %>" class="page-link">Next</a>
+    <% } %>
+  </div>
+
         <div style="text-align: center;">
-            <a href="/login" class="logout">Log Out</a>
+            <a href="/logout" class="logout">Log Out</a>
         </div>
     </div>
 </body>

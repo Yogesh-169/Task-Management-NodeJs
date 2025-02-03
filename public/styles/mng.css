@@ -133,3 +133,29 @@ h2 {
 .logout:hover {
   background: #dc2626;
 }
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-link {
+  margin: 0 5px;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.page-link.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.page-link:hover {
+  background-color: #f1f1f1;
+}

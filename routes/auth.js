@@ -43,4 +43,14 @@ router.delete('/utasks/:id', requireAuth, authController.adminDeleteTask);
 router.post('/make-admin', authController.makeAdmin);
 router.post('/demote-admin', authController.demotAdmin);
 
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("Error logging out");
+        }
+        res.redirect('/login'); // Redirect to login page after logout
+    });
+});
+
 module.exports = router;

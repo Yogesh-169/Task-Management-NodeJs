@@ -85,8 +85,19 @@ const handleManageUser = async (req, res) => {
     if (req.session.user.role !== 'admin') {
       return res.status(403).send('Forbidden');
     }
-    const tasks = await Task.find().populate('assignedTo');
-    res.render('admin/manageuser', { tasks });
+
+    const page = parseInt(req.query.page) || 1; // Get the page number from the query parameters
+    const limit = 5; // Number of tasks per page
+    const skip = (page - 1) * limit;
+
+    const totalTasks = await Task.countDocuments(); // Total number of tasks
+    const tasks = await Task.find().populate('assignedTo').skip(skip).limit(limit);
+
+    res.render('admin/manageuser', {
+      tasks,
+      currentPage: page,
+      totalPages: Math.ceil(totalTasks / limit),
+    });
   } catch (error) {
     console.error('Error fetching tasks:', error);
     res.status(500).send('Internal server error');
@@ -126,8 +137,21 @@ const postCreateTask = async (req, res) => {
 // Show user dashboard with assigned tasks
 const UserDashboard = async (req, res) => {
   try {
-    const tasks = await Task.find({ assignedTo: req.session.user._id });
-    res.render('user/user', { user: req.session.user, tasks });
+    const page = parseInt(req.query.page) || 1; // Get the page number from the query parameters
+    const limit = 5; // Number of tasks per page
+    const skip = (page - 1) * limit;
+
+    const totalTasks = await Task.countDocuments({ assignedTo: req.session.user._id }); // Total number of tasks assigned to the user
+    const tasks = await Task.find({ assignedTo: req.session.user._id })
+      .skip(skip)
+      .limit(limit);
+
+    res.render('user/user', {
+      user: req.session.user,
+      tasks,
+      currentPage: page,
+      totalPages: Math.ceil(totalTasks / limit),
+    });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal server error');
