@@ -26,7 +26,7 @@ const handleRegistration = async (req, res) => {
     const newUser = new User({ username, email, password });
     await newUser.save();
 
-    res.send('User registered successfully');
+    res.render('login');
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).send('Internal server error');
