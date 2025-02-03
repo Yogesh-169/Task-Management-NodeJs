@@ -7,14 +7,7 @@
     <link rel="stylesheet" href="styles/user.css">
 </head>
 <body>
-    <nav class="navbar">
-        <a href="#" class="nav-brand">Task Manager</a>
-        <div class="nav-links">
-            <a href="/user">Dashboard</a>
-            <a href="/user">My Tasks</a>
-            <a href="/user">Profile</a>
-        </div>
-    </nav>
+    <%- include('../partials/usernav') %>
     <div class="dashboard-container">
         <h2>Welcome back, <%= user.username %>! 👋</h2>
         <h3>Your Active Tasks</h3>
