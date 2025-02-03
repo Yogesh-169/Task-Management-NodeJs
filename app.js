@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const authRoutes = require('./routes/auth');
-const Task = require('./models/Task');
 const path = require('path');
 const methodOverride = require('method-override');
 

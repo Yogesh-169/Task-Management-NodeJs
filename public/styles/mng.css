@@ -23,9 +23,19 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
-.edit-button {
-  background-color: #4CAF50;
+.edit-btn {
+  background: #6366f1;
   color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
 }
 .delete-button {
   background-color: #f44336;

@@ -14,12 +14,16 @@
         <% users.forEach(user => { %>
             <li>
                 <span><%= user.username %> - <%= user.role %></span>
-                <% if (user.role !== "admin") { %>
-                    <form action="/admin/make-admin" method="POST">
+
+                <% if (user.username !== "admin") { %>
+                    <form action="<%= user.role === 'admin' ? '/demote-admin' : '/make-admin' %>" method="POST">
                         <input type="hidden" name="userId" value="<%= user._id %>">
-                        <button type="submit" class="btn">Make Admin</button>
+                        <button type="submit" class="btn">
+                            <%= user.role === 'admin' ? 'Demote' : 'Make Admin' %>
+                        </button>
                     </form>
                 <% } %>
+
             </li>
         <% }) %>
     <% } else { %>
